@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 6fd2b79a7258748cfa43a5258de708f8
+timeCreated: 1540754182
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Lavi
+  fontNames:
+  - Lavi
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
