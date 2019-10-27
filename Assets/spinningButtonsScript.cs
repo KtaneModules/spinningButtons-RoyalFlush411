@@ -190,7 +190,7 @@ public class spinningButtonsScript : MonoBehaviour
     }
 
     #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} press <color> [Presses the button with the specified color] | !{0} press <color> <color> [Example of buttomn chaining] | !{0} reset [Resets all inputs]";
+    private readonly string TwitchHelpMessage = @"!{0} press <color> [Presses the button with the specified color] | !{0} press <color> <color> [Example of button chaining] | !{0} reset [Resets all inputs] | Valid colors are Red, Purple, Orange, Grey, Green, and Blue";
     #pragma warning restore 414
     IEnumerator ProcessTwitchCommand(string command)
     {
