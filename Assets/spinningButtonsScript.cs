@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using KModkit;
 
@@ -172,5 +173,80 @@ public class spinningButtonsScript : MonoBehaviour
         Audio.PlaySoundAtTransform("wrong", transform);
         yield return new WaitForSeconds(0.01f);
         Audio.PlaySoundAtTransform("beep", transform);
+    }
+
+    //twitch plays
+    private bool checkValid(string[] s)
+    {
+        for(int i = 1; i < s.Length; i++)
+        {
+            string temp = s[i].ToLower();
+            if (!buttonNameOptions.Contains(s[i]))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    #pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} press <color> [Presses the button with the specified color] | !{0} press <color> <color> [Example of buttomn chaining] | !{0} reset [Resets all inputs]";
+    #pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        string[] parameters = command.Split(' ');
+        if (Regex.IsMatch(parameters[0], @"^\s*reset\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            Debug.LogFormat("[Spinning Buttons #{0}] Reset of inputs triggered! (TP)", moduleId);
+            stage = 0;
+            for (int i = 0; i <= 3; i++)
+            {
+                buttonInfo[i].pressed = false;
+            }
+            foreach (Renderer indic in indicatorLights)
+            {
+                indic.material = indicatorMaterials[0];
+            }
+            expectedValue = orderOfButtons[stage];
+            yield break;
+        }
+        if (Regex.IsMatch(parameters[0], @"^\s*press\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            if(parameters.Length >= 2 && parameters.Length <= 5)
+            {
+                if (checkValid(parameters))
+                {
+                    yield return null;
+                    string[] allcolors = { buttonInfo[0].colourName, buttonInfo[1].colourName, buttonInfo[2].colourName, buttonInfo[3].colourName };
+                    for (int i = 1; i < parameters.Length; i++)
+                    {
+                        string temp = parameters[i];
+                        temp = temp.ToLower();
+                        if (allcolors.Contains(temp))
+                        {
+                            if (buttonInfo[0].colourName.Equals(temp))
+                            {
+                                buttonInfo[0].GetComponent<KMSelectable>().OnInteract();
+                            }
+                            else if (buttonInfo[1].colourName.Equals(temp))
+                            {
+                                buttonInfo[1].GetComponent<KMSelectable>().OnInteract();
+                            }
+                            else if (buttonInfo[2].colourName.Equals(temp))
+                            {
+                                buttonInfo[2].GetComponent<KMSelectable>().OnInteract();
+                            }
+                            else if (buttonInfo[3].colourName.Equals(temp))
+                            {
+                                buttonInfo[3].GetComponent<KMSelectable>().OnInteract();
+                            }
+                        }
+                        yield return new WaitForSeconds(0.1f);
+                    }
+                }
+            }
+            yield break;
+        }
     }
 }
