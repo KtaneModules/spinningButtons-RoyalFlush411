@@ -181,7 +181,7 @@ public class spinningButtonsScript : MonoBehaviour
         for(int i = 1; i < s.Length; i++)
         {
             string temp = s[i].ToLower();
-            if (!buttonNameOptions.Contains(s[i]))
+            if (!buttonNameOptions.Contains(temp))
             {
                 return false;
             }
